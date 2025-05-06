@@ -33,7 +33,7 @@ def get_all_tasks():
     if description_param:
         query = query.where(Task.description.ilike(f"%{description_param}%"))
 
-    query = query.order_by(Task.title.desc())
+    query = query.order_by(Task.title.asc())
     tasks = db.session.scalars(query)
 
     tasks_response = []
