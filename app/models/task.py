@@ -15,7 +15,7 @@ class Task(db.Model):
                 "id": self.id,
                 "title": self.title,
                 "description": self.description,
-                "is_complete": self.completed_at is not None
+                "is_complete": self.completed_at is not None   #bool(self.completed_at)
         }
 
     @classmethod
