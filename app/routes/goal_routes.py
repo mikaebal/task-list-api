@@ -1,8 +1,8 @@
 from flask import Blueprint, request, Response, jsonify
 from ..db import db
 from app.models.goal import Goal
+from app.models.task import Task
 from .route_utilities import validate_model
-# import requests, os
 
 bp = Blueprint("goals_bp", __name__, url_prefix="/goals")
 
@@ -64,3 +64,55 @@ def delete_goal(id):
     db.session.commit()
 
     return Response(status=204, mimetype="application/json")
+
+
+# nested routes 
+# POST /goals/1/tasks
+@bp.post("/<id>/tasks")
+def create_task_for_goal(id):
+    goal = validate_model(Goal, id)
+    request_body = request.get_json()
+
+    # task_data = {
+    #     "title": request_body["title"],
+    #     "description": request_body["description"],
+    #     "completed_at": request_body["completed_at"],
+    #     "goal_id": goal.id 
+    # }
+
+    # return create_model(Task, task_data)
+
+
+
+    task_ids = request_body.get("task_ids", [])
+
+    # disassociate all current tasks
+    for task in goal.tasks:
+        task.goal_id = None
+
+    # associate new tasks
+    for task_id in task_ids:
+        task = validate_model(Task, task_id)
+        task.goal_id = goal.id
+
+    db.session.commit()
+
+    return {
+        "id": goal.id,
+        "task_ids": task_ids
+    }, 200
+
+
+# GET /goals/333/tasks
+# no matching tasks --> 200 ok []
+# no matching goal --> 404
+@bp.get("/<id>/tasks")
+def get_tasks_for_goal(id):
+    # goal = validate_model(Goal, id)
+    # tasks = [task.to_dict() for task in goal.tasks]
+    # return tasks, 200
+
+    goal = validate_model(Goal, id)
+    goal_dict = goal.to_dict()
+    goal_dict["tasks"] = [task.to_dict() for task in goal.tasks]
+    return goal_dict, 200

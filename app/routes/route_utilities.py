@@ -16,3 +16,16 @@ def validate_model(cls, id):
         abort(make_response(response, 404))
     
     return model
+
+# # create new instance of model from model_data
+# def create_model(cls, model_data):
+#     try:
+#         new_model = cls.from_dict(model_data)
+#     except KeyError as e:
+#         response = {"details": f"Invalid data: missing {e.args[0]}"}
+#         abort(make_response(response, 400))
+    
+#     db.session.add(new_model)
+#     db.session.commit()
+
+#     return new_model.to_dict(), 201
