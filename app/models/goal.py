@@ -20,5 +20,5 @@ class Goal(db.Model):
     def from_dict(cls, goal_data):
         return cls(
             title=goal_data["title"],
-            tasks=goal_data.get("tasks", []) #new
+            tasks=goal_data.get("tasks", [])
         )
