@@ -47,18 +47,15 @@ def test_get_goal(client, one_goal):
         }
     }
 
-# edited
+
 # @pytest.mark.skip(reason="test to be completed by student")
 def test_get_goal_not_found(client):
     # Act
     response = client.get("/goals/1")
     response_body = response.get_json()
 
-    # raise Exception("Complete test")
-
     # Assert
     assert response.status_code == 404
-
     assert "details" in response_body
     assert response_body == {
         "details": "Goal 1 not found"
@@ -85,7 +82,6 @@ def test_create_goal(client):
     }
 
 
-# edited
 # @pytest.mark.skip(reason="test to be completed by student")
 def test_update_goal(client, one_goal):
     # raise Exception("Complete test")
@@ -104,7 +100,6 @@ def test_update_goal(client, one_goal):
     assert goal.title == "Updated Goal Title"
 
 
-# edited
 # @pytest.mark.skip(reason="test to be completed by student")
 def test_update_goal_not_found(client):
     #raise Exception("Complete test")
@@ -117,14 +112,12 @@ def test_update_goal_not_found(client):
 
     # Assert
     assert response.status_code == 404
-
     assert "details" in response_body
     assert response_body == {
         "details": "Goal 1 not found"
     }
 
 
-# edited
 # @pytest.mark.skip(reason="No way to test this feature yet")
 def test_delete_goal(client, one_goal):
     # Act
@@ -139,13 +132,11 @@ def test_delete_goal(client, one_goal):
 
     response_body = response.get_json()
     assert "details" in response_body
-
-    # raise Exception("Complete test with assertion about response body")
     assert response_body == {
         "details": "Goal 1 not found"
     }
 
-# edited
+
 # @pytest.mark.skip(reason="test to be completed by student")
 def test_delete_goal_not_found(client):
     # raise Exception("Complete test")
@@ -156,8 +147,6 @@ def test_delete_goal_not_found(client):
 
     # Assert
     assert response.status_code == 404
-
-    # raise Exception("Complete test with assertion about response body")
     assert "details" in response_body
     assert response_body == {
         "details": "Goal 1 not found"

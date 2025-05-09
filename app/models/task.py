@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .goal import Goal
 
-# CHILD - FK
+
 class Task(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     title: Mapped[str]
@@ -22,7 +22,6 @@ class Task(db.Model):
                 "title": self.title,
                 "description": self.description,
                 "is_complete": self.completed_at is not None,
-                #"goal_id": self.goal_id
                 **({"goal_id": self.goal_id} if self.goal_id is not None else {})
         }
 
@@ -32,5 +31,5 @@ class Task(db.Model):
             title=task_data["title"],
             description=task_data["description"],
             completed_at=task_data.get("completed_at"),
-            goal_id=task_data.get("goal_id") #new
+            goal_id=task_data.get("goal_id")
         )
